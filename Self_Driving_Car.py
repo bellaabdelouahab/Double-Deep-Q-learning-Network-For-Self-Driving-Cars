@@ -20,8 +20,8 @@ GameHistory = []
 ddqn_agent = DDQNAgent(alpha=0.001, gamma=0.99, n_actions=5, epsilon=1.0, batch_size=64, input_dims=11)
 # if you want to load the existing model uncomment this line.
 # careful an existing model might be overwritten
-# ddqn_agent.load_model()
-# ddqn_agent.update_network_parameters()
+ddqn_agent.load_model()
+ddqn_agent.update_network_parameters()
  
 ddqn_scores = []
 eps_history = []

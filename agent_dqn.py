@@ -40,7 +40,7 @@ class ReplayBuffer(object):
         self.mem_cntr += 1
     #
     def sample_buffer(self, batch_size):
-        #for not sampling the ziros we want to find max between the two
+        #for not sampling the zeros we want to find max between the two
         max_mem = min(self.mem_cntr, self.mem_size)
         # get array from 0 to max_mem-1
         batch = np.random.choice(max_mem, batch_size)
