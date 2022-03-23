@@ -6,7 +6,7 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import plot_model
 import numpy as np
 
-# replay buffer to allow the agent to sample state  action reward... across many different episodes
+# replay buffer to allow the agent to sample state action reward... across many different episodes
 # and also for the agent so that he doesn't get stuck
 class ReplayBuffer(object):
     def __init__(self, max_size, input_shape, n_actions, discrete=False):
@@ -38,7 +38,7 @@ class ReplayBuffer(object):
         self.reward_memory[index] = reward
         self.terminal_memory[index] = 1 - done
         self.mem_cntr += 1
-    #
+    
     def sample_buffer(self, batch_size):
         #for not sampling the zeros we want to find max between the two
         max_mem = min(self.mem_cntr, self.mem_size)
@@ -54,43 +54,41 @@ class ReplayBuffer(object):
 
 def Model(lr, n_actions, input_dims, fc_dims):
     model = Sequential([
-                Dense(fc_dims, input_shape=(input_dims,),activation=tf.nn.elu),
-                Dense(fc_dims,activation=tf.nn.elu),
-                Dense(fc_dims,activation=tf.nn.elu),
+                Dense(fc_dims, input_shape=(input_dims,),activation='relu'),
+                Dense(fc_dims,activation='relu'),
+                Dense(fc_dims,activation='relu'),
                 Dense(n_actions)])
 
-    model.compile(optimizer=Adam(learning_rate=lr), loss='mse')
+    model.compile(optimizer=Adam(learning_rate=lr,decay=0.001), loss='mse')
 
     return model
 
 class DDQNAgent(object):
     # NB : the gamma here is to reduce the predicted reward because it may or may not end-up in the same tragedy 
     def __init__(self, alpha, gamma, n_actions, epsilon, batch_size,
-                 input_dims, epsilon_dec=0.996,  epsilon_end=0.01,
-                 mem_size=1000000, fname='ddqn_modelModifedlyer.h5',
+                 input_dims, epsilon_dec=0.9995,  epsilon_end=0.01,
+                 mem_size=1000000, fname='ddqn_modelModifedlyerF_.h5',
                  replace_target=100):
         self.action_space = [i for i in range(n_actions)]
         self.n_actions = n_actions
         self.gamma = gamma
         self.epsilon = epsilon
         self.epsilon_dec = epsilon_dec
-        self.epsilon_end = epsilon_end
+        self.epsilon_min = epsilon_end
         self.batch_size = batch_size
         self.model_file = fname
         self.replace_target = replace_target
         self.memory = ReplayBuffer(mem_size, input_dims, n_actions,
                                    discrete=True)
-        self.q_eval = Model(alpha, n_actions, input_dims, 256)
-        self.q_target = Model(alpha, n_actions, input_dims, 256)
+        self.q_eval = Model(alpha, n_actions, input_dims, 32)
+        self.q_target = Model(alpha, n_actions, input_dims, 32)
 
     def remember(self, state, action, reward, new_state, done):
         self.memory.store_transition(state, action, reward, new_state, done)
 
     def choose_action(self, state):
         state=np.array(state)
-        print(state)
         state = state[np.newaxis, :]
-        print(state)
         rand = np.random.random()
         if rand < self.epsilon:
             action = np.random.choice(self.action_space)
@@ -102,8 +100,7 @@ class DDQNAgent(object):
 
     def learn(self):
         if self.memory.mem_cntr > self.batch_size:
-            state, action, reward, new_state, done = \
-                                          self.memory.sample_buffer(self.batch_size)
+            state, action, reward, new_state, done = self.memory.sample_buffer(self.batch_size)
 
             action_values = np.array(self.action_space, dtype=np.int8)
             action_indices = np.dot(action, action_values)
@@ -124,7 +121,7 @@ class DDQNAgent(object):
             _ = self.q_eval.fit(state, q_target, verbose=0)
 
             self.epsilon = self.epsilon*self.epsilon_dec if self.epsilon > \
-                           self.epsilon_end else self.epsilon_end
+                           self.epsilon_min else self.epsilon_min
             if self.memory.mem_cntr % self.replace_target == 0:
                 self.update_network_parameters()
 
@@ -136,6 +133,7 @@ class DDQNAgent(object):
 
     def load_model(self):
         self.q_eval = load_model(self.model_file)
+        self.q_eval.summary()
         self.q_target = load_model(self.model_file)
         # if we are in evaluation mode we want to use the best weights for
         # q_target

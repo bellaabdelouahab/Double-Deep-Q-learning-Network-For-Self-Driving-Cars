@@ -8,7 +8,8 @@ from buttons import button
 from math import cos,sin,pi
 from learning_rate import draw_graphe
 import numpy as np
-from agent_dqn import DDQNAgent
+from ddqn_Agent import DDQNAgent
+import os
 ##################### set game env ##################
 
 TOTAL_GAMETIME = 10000 # Max game time for one episode
@@ -17,7 +18,7 @@ Episodes_counter = 0
 REPLACE_TARGET = 100 
 GameTime = 0 
 GameHistory = []
-ddqn_agent = DDQNAgent(alpha=0.001, gamma=0.99, n_actions=5, epsilon=1.0, batch_size=64, input_dims=11)
+ddqn_agent = DDQNAgent(alpha=0.001, gamma=0.998, n_actions=3, epsilon=0, batch_size=128, input_dims=3)
 # if you want to load the existing model uncomment this line.
 # careful an existing model might be overwritten
 ddqn_agent.load_model()
@@ -26,6 +27,7 @@ ddqn_agent.update_network_parameters()
 ddqn_scores = []
 eps_history = []
 observation = []
+carPositionHistory = []
 #game state
 done=True
 reward=0
@@ -115,18 +117,23 @@ windows.on_mouse_press=on_mouse_press
 @windows.event       
 def on_close():
     draw_graphe([sum([ddqn_scores[j] for j in range(i)])/i for i in range(1,len(ddqn_scores))],True)
+    if Episodes_counter>50:
+        ddqn_agent.save_model()
+        print("save model")
+    return
 @windows.event
 def on_mouse_motion(x, y, dx, dy):
     track.change_track_coords(x,y)
     track.change_goal_coords(x,y)
 def car(carX,carY):
-    global Car
+    global Car , carPositionHistory
     Car.sprite.rotation+=carX/(rotation_angel*7)
     Car.Carx+=carY/10*cos((-Car.sprite.rotation+90)*pi/180)
     Car.Cary+=carY/10*sin((-Car.sprite.rotation+90)*pi/180)
     if abs(-Car.sprite.rotation+90)>=360:
         Car.sprite.rotation=90
     Car.update(Car.sprite.rotation,Car.sprite)
+    carPositionHistory.append((Car.Carx,Car.Cary))
     return (Car.sprite.rotation,Car.Carx,Car.Cary)
 def hover(line,x4,y4,x3,y3,x2,y2,x1,y1):
     if ((y4-y3)*(x2-x1) - (x4-x3)*(y2-y1))==0:
@@ -173,7 +180,18 @@ def move(dt):
         if rotation_angel>1:
             rotation_angel-=1
 def resetgame():
-    global default_distance,rotation_angel
+    global default_distance,rotation_angel,carPositionHistory
+    
+    #last goal scored:
+    for i in Track_gols:
+        if i[1]:
+            index = Track_gols.index(i)
+    # # if len(carPositionHistory)>20:
+    # Car.Carx=(Track_gols[index-1][0].x2+Track_gols[index-1][0].x)/2
+    # Car.Cary=(Track_gols[index-1][0].y2+Track_gols[index-1][0].y)/2
+    # print(Car.Carx,Car.Cary)
+        # carPositionHistory = carPositionHistory[:-20]
+    # else:
     Car.Carx=Car.DefaultCarX
     Car.Cary=Car.DefaultCarY
     Car.update(-90,Car.sprite)
@@ -263,19 +281,21 @@ def on_text_motion_in(dt,bytf=True):
         return done
 
 def step(dt,action,bytf=False):
+    keyboard[window.key.MOTION_UP]=True
+    buttons.move_up.color=(200,20,20)
     if not 0<=action<6 or action==6:
         print(action)
         exit()
-    if action==0:
-        keyboard[window.key.MOTION_UP]=True
-        keyboard[window.key.MOTION_DOWN]=False
-        buttons.move_up.color=(200,20,20)
-        buttons.move_down.color=(156,134,199)
-    elif action==4:
-        keyboard[window.key.MOTION_DOWN]=False
-        keyboard[window.key.MOTION_UP]=False
-        buttons.move_down.color=(156,134,199)
-        buttons.move_up.color=(156,34,199)
+    # if action==0:
+    #     keyboard[window.key.MOTION_UP]=True
+    #     keyboard[window.key.MOTION_DOWN]=False
+    #     buttons.move_up.color=(200,20,20)
+    #     buttons.move_down.color=(156,134,199)
+    # elif action==4:
+    #     keyboard[window.key.MOTION_DOWN]=False
+    #     keyboard[window.key.MOTION_UP]=False
+    #     buttons.move_down.color=(156,134,199)
+    #     buttons.move_up.color=(156,34,199)
     elif action==1:
         keyboard[window.key.MOTION_LEFT]=True
         keyboard[window.key.MOTION_RIGHT]=False
@@ -291,7 +311,7 @@ def step(dt,action,bytf=False):
     #     keyboard[window.key.MOTION_LEFT]=False
     #     buttons.move_right.color=(200,20,20)
     #     buttons.move_left.color=(156,34,199)
-    elif action==3:
+    elif action==0:
         keyboard[window.key.MOTION_RIGHT]=False
         keyboard[window.key.MOTION_LEFT]=False
         buttons.move_right.color=(156,34,199)
@@ -300,8 +320,9 @@ def step(dt,action,bytf=False):
 def run_agent(dt):
     global learnning_started,Episodes_counter,done,observation,score,counter,reward,gtime,first_game,show_real_car,list_of_actions,render_actions
     if learnning_started and Episodes_counter<N_EPISODES and done and not show_real_car:
-        if Episodes_counter==2:
-            ddqn_agent.Plotit()
+        if Episodes_counter==200:    
+            os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
+        #     ddqn_agent.Plotit()
         if not first_game:
             eps_history.append(ddqn_agent.epsilon)
             ddqn_scores.append(score)
@@ -309,7 +330,7 @@ def run_agent(dt):
             if Episodes_counter% REPLACE_TARGET == 0 and Episodes_counter>= REPLACE_TARGET:
                 ddqn_agent.update_network_parameters()
                 print('<------Netwrok parameters updated------>')
-            if Episodes_counter% 25 == 0 and Episodes_counter>= 25:
+            if Episodes_counter% 100 == 0 and Episodes_counter>= 100:
                 ddqn_agent.save_model()
                 print("save model")
             print('Episode: ', Episodes_counter,'Score: %.2f' % score,' Sverage score %.2f' % avg_score,' Epsolon: %.4f ' % ddqn_agent.epsilon,' Memory size', ddqn_agent.memory.mem_cntr % ddqn_agent.memory.mem_size)
@@ -336,13 +357,13 @@ def run_an_episode(dt):
         observation_, reward, done = step(dt,action,True)
         list_of_actions.append(action)
         # This is a countdown if no reward is collected the car will be done within 100 ticks
-        if reward == 0:
-            counter += 1
-            if counter > 100:
-                done = True
-                print("No Rewards")
-        else:
-            counter = 0
+        # if reward == 0:
+        #     counter += 1
+        #     if counter > 100:
+        #         done = True
+        #         print("No Rewards")
+        # else:
+        #     counter = 0
         print(end="")
         score += reward
         

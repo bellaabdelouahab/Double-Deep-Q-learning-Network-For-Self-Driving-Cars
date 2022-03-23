@@ -3,9 +3,9 @@ from math import cos,sin,pi
 class Set_car:
     car = graphics.Batch()
     image=resource.image('unnamed.png')
-    DefaultCarX=750
+    DefaultCarX=950
     DefaultCarY=110
-    Carx=750
+    Carx=950
     Cary=110
     image.width=20
     image.height=40
@@ -19,17 +19,17 @@ class Set_car:
     # [shapes.Line(Carx , Cary,Carx+500*cos( 36*pi/180) , Cary+500*sin( 36*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+ 5 , Cary+60, 3, color=(50, 225, 30), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=230,batch=car)],
     # [shapes.Line(Carx , Cary,Carx+500*cos( 54*pi/180) , Cary+500*sin( 54*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+ 5 , Cary-60, 3, color=(50, 225, 30), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=215,batch=car)],
     # [shapes.Line(Carx , Cary,Carx+500*cos( 72*pi/180) , Cary+500*sin( 72*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+ 5 , Cary-60, 3, color=(50, 225, 30), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=200,batch=car)],
-    [shapes.Line(Carx                 , Cary+image.height/4,Carx+500*cos( 90*pi/180) , Cary+500*sin( 90*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx-90 , Cary+10, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=485,batch=car)],
-    [shapes.Line(Carx-1/4*image.width , Cary+image.height/4,Carx+500*cos(108*pi/180) , Cary+500*sin(108*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx-90 , Cary-10, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=470,batch=car)],
-    [shapes.Line(Carx-2/4*image.width , Cary+image.height/4,Carx+500*cos(126*pi/180) , Cary+500*sin(126*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx-60 , Cary+60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=455,batch=car)],
-    [shapes.Line(Carx-3/4*image.width , Cary+image.height/4,Carx+500*cos(144*pi/180) , Cary+500*sin(144*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx-60 , Cary-60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=440,batch=car)],
+    # [shapes.Line(Carx                 , Cary+image.height/4,Carx+500*cos( 90*pi/180) , Cary+500*sin( 90*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx-90 , Cary+10, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=485,batch=car)],
+    # [shapes.Line(Carx-1/4*image.width , Cary+image.height/4,Carx+500*cos(108*pi/180) , Cary+500*sin(108*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx-90 , Cary-10, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=470,batch=car)],
+    # [shapes.Line(Carx-2/4*image.width , Cary+image.height/4,Carx+500*cos(126*pi/180) , Cary+500*sin(126*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx-60 , Cary+60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=455,batch=car)],
+    # [shapes.Line(Carx-3/4*image.width , Cary+image.height/4,Carx+500*cos(144*pi/180) , Cary+500*sin(144*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx-60 , Cary-60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=440,batch=car)],
     [shapes.Line(Carx-image.width     , Cary+image.height/4,Carx+500*cos(162*pi/180) , Cary+500*sin(162*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+90 , Cary+10, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=425,batch=car)],
     [shapes.Line(Carx-image.width     , Cary               ,Carx+500*cos(180*pi/180) , Cary+500*sin(180*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+90 , Cary-10, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=410,batch=car)],
     [shapes.Line(Carx-image.width     , Cary-image.height/4,Carx+500*cos(198*pi/180) , Cary+500*sin(198*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+60 , Cary+60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=395,batch=car)],
-    [shapes.Line(Carx-3/4*image.width , Cary-image.height/4,Carx+500*cos(216*pi/180) , Cary+500*sin(216*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+60 , Cary-60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=380,batch=car)],
-    [shapes.Line(Carx-2/4*image.width , Cary-image.height/4,Carx+500*cos(234*pi/180) , Cary+500*sin(234*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+ 5 , Cary+60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=365,batch=car)],
-    [shapes.Line(Carx-1/4*image.width , Cary-image.height/4,Carx+500*cos(252*pi/180) , Cary+500*sin(252*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+ 5 , Cary-60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=350,batch=car)],
-    [shapes.Line(Carx                 , Cary-image.height/4,Carx+500*cos(270*pi/180) , Cary+500*sin(270*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+ 5 , Cary-60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=335,batch=car)]
+    # [shapes.Line(Carx-3/4*image.width , Cary-image.height/4,Carx+500*cos(216*pi/180) , Cary+500*sin(216*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+60 , Cary-60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=380,batch=car)],
+    # [shapes.Line(Carx-2/4*image.width , Cary-image.height/4,Carx+500*cos(234*pi/180) , Cary+500*sin(234*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+ 5 , Cary+60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=365,batch=car)],
+    # [shapes.Line(Carx-1/4*image.width , Cary-image.height/4,Carx+500*cos(252*pi/180) , Cary+500*sin(252*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+ 5 , Cary-60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=350,batch=car)],
+    # [shapes.Line(Carx                 , Cary-image.height/4,Carx+500*cos(270*pi/180) , Cary+500*sin(270*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+ 5 , Cary-60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=335,batch=car)]
     # [shapes.Line(Carx , Cary,Carx+500*cos(288*pi/180) , Cary+500*sin(288*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx-60 , Cary+60, 3, color=(50, 225, 30), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=320,batch=car)],
     # [shapes.Line(Carx , Cary,Carx+500*cos(306*pi/180) , Cary+500*sin(306*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx-60 , Cary-60, 3, color=(50, 225, 30), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=305,batch=car)],
     # [shapes.Line(Carx , Cary,Carx+500*cos(324*pi/180) , Cary+500*sin(324*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+90 , Cary+10, 3, color=(50, 225, 30), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=290,batch=car)],
@@ -49,10 +49,10 @@ class Set_car:
         line[3].text=str(format(((line[0].x2-(line[0].x))**2 + (line[0].y2-(line[0].y))**2)**0.5, ".2f"))
     for line in car_shape:
         line.opacity=0
-    lines_coord=[[line[0].x-750,line[0].y-110,line[0].x2-750,line[0].y2-110] for line in lines]
+    lines_coord=[[line[0].x-950,line[0].y-110,line[0].x2-950,line[0].y2-110] for line in lines]
 
 ###########
-    car_body=[[line.x-750,line.y-110,line.x2-750,line.y2-110] for line in car_shape]
+    car_body=[[line.x-950,line.y-110,line.x2-950,line.y2-110] for line in car_shape]
     def __init__(self):
         self.velocity=0
     def update(self,rotation,sprite):
@@ -73,19 +73,19 @@ class Set_car:
         x[0][3].text=str(format(((x[0][0].x2-(x[0][0].x))**2 + (x[0][0].y2-(x[0][0].y))**2)**0.5, ".2f"))
         x[1][3].text=str(format(((x[1][0].x2-(x[1][0].x))**2 + (x[1][0].y2-(x[1][0].y))**2)**0.5, ".2f"))
         x[2][3].text=str(format(((x[2][0].x2-(x[2][0].x))**2 + (x[2][0].y2-(x[2][0].y))**2)**0.5, ".2f"))
-        x[3][3].text=str(format(((x[3][0].x2-(x[3][0].x))**2 + (x[3][0].y2-(x[3][0].y))**2)**0.5, ".2f"))
-        x[4][3].text=str(format(((x[4][0].x2-(x[4][0].x))**2 + (x[4][0].y2-(x[4][0].y))**2)**0.5, ".2f"))
-        x[5][3].text=str(format(((x[5][0].x2-(x[5][0].x))**2 + (x[5][0].y2-(x[5][0].y))**2)**0.5, ".2f"))
-        x[6][3].text=str(format(((x[6][0].x2-(x[6][0].x))**2 + (x[6][0].y2-(x[6][0].y))**2)**0.5, ".2f"))
-        x[7][3].text=str(format(((x[7][0].x2-(x[7][0].x))**2 + (x[7][0].y2-(x[7][0].y))**2)**0.5, ".2f"))
-        x[8][3].text=str(format(((x[8][0].x2-(x[8][0].x))**2 + (x[8][0].y2-(x[8][0].y))**2)**0.5, ".2f"))
-        x[9][3].text=str(format(((x[9][0].x2-(x[9][0].x))**2 + (x[9][0].y2-(x[9][0].y))**2)**0.5, ".2f"))
+        # x[3][3].text=str(format(((x[3][0].x2-(x[3][0].x))**2 + (x[3][0].y2-(x[3][0].y))**2)**0.5, ".2f"))
+        # x[4][3].text=str(format(((x[4][0].x2-(x[4][0].x))**2 + (x[4][0].y2-(x[4][0].y))**2)**0.5, ".2f"))
+        # x[5][3].text=str(format(((x[5][0].x2-(x[5][0].x))**2 + (x[5][0].y2-(x[5][0].y))**2)**0.5, ".2f"))
+        # x[6][3].text=str(format(((x[6][0].x2-(x[6][0].x))**2 + (x[6][0].y2-(x[6][0].y))**2)**0.5, ".2f"))
+        # x[7][3].text=str(format(((x[7][0].x2-(x[7][0].x))**2 + (x[7][0].y2-(x[7][0].y))**2)**0.5, ".2f"))
+        # x[8][3].text=str(format(((x[8][0].x2-(x[8][0].x))**2 + (x[8][0].y2-(x[8][0].y))**2)**0.5, ".2f"))
+        # x[9][3].text=str(format(((x[9][0].x2-(x[9][0].x))**2 + (x[9][0].y2-(x[9][0].y))**2)**0.5, ".2f"))
         return [eval(x[i][3].text) for i in range(len(x))]
     
 class Set_car2:
     car1 = graphics.Batch()
     image=resource.image('unnamed.png')
-    Carx=750
+    Carx=950
     Cary=110
     image.width=20
     image.height=40

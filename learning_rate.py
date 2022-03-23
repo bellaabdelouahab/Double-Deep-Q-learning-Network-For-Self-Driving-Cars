@@ -1,3 +1,4 @@
+import time
 from matplotlib import pyplot as plt
 import numpy as np
 import math
@@ -9,7 +10,7 @@ def computeTicks (x):
     dMax, dMin = xMax + abs((xMax % step) - step) + (step if (xMax % step != 0) else 0), xMin - abs((xMin % step))
     return range(dMin, dMax, step)
 
- 
+import time
 def draw_graphe(x,ShowGraphe=False):
     if len(x) == 0: return
     plt.figure(figsize=(12,4),facecolor="grey")
@@ -21,6 +22,6 @@ def draw_graphe(x,ShowGraphe=False):
     plt.ylabel("Score")
     plt.xlabel("Episodes")
     plt.title("Learnin gRate :{}".format(accuren))
-    plt.savefig("../P-F-E/last_learning_rate_graph.jpg")
+    plt.savefig("./last_learning_rate_graph"+str(time.localtime)+".jpg")
     if ShowGraphe:
         plt.show()
