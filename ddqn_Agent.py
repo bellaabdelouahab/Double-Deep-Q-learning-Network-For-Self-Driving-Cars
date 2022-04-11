@@ -5,6 +5,7 @@ from keras.models import Sequential, load_model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import plot_model
 import numpy as np
+import time
 
 # replay buffer to allow the agent to sample state action reward... across many different episodes
 # and also for the agent so that he doesn't get stuck
@@ -67,7 +68,7 @@ class DDQNAgent(object):
     # NB : the gamma here is to reduce the predicted reward because it may or may not end-up in the same tragedy 
     def __init__(self, alpha, gamma, n_actions, epsilon, batch_size,
                  input_dims, epsilon_dec=0.9995,  epsilon_end=0.01,
-                 mem_size=1000000, fname='ddqn_modelModifedlyerF_.h5',
+                 mem_size=1000000, fname='Model',
                  replace_target=100):
         self.action_space = [i for i in range(n_actions)]
         self.n_actions = n_actions
@@ -129,12 +130,13 @@ class DDQNAgent(object):
         self.q_target.set_weights(self.q_eval.get_weights())
 
     def save_model(self):
-        self.q_eval.save(self.model_file)
+        timestr = time.strftime("-%d-%m-%Y-%H-%M")
+        self.q_eval.save("Models/"+self.model_file+timestr+".h5")
 
-    def load_model(self):
-        self.q_eval = load_model(self.model_file)
+    def load_model(self,path):
+        self.q_eval = load_model(path)
         self.q_eval.summary()
-        self.q_target = load_model(self.model_file)
+        self.q_target = load_model(path)
         # if we are in evaluation mode we want to use the best weights for
         # q_target
         if self.epsilon == 0.0:

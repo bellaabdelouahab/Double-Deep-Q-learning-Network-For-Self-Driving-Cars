@@ -22,6 +22,6 @@ def draw_graphe(x,ShowGraphe=False):
     plt.ylabel("Score")
     plt.xlabel("Episodes")
     plt.title("Learnin gRate :{}".format(accuren))
-    plt.savefig("./last_learning_rate_graph"+str(time.localtime)+".jpg")
+    plt.savefig("Learning Rate graphs/learning_rate"+time.strftime("%d-%m-%Y-%H-%M")+".jpg")
     if ShowGraphe:
         plt.show()

@@ -2,10 +2,10 @@ from pyglet import shapes,resource,sprite,graphics,text
 from math import cos,sin,pi
 class Set_car:
     car = graphics.Batch()
-    image=resource.image('unnamed.png')
-    DefaultCarX=950
+    image=resource.image('Car.png')
+    DefaultCarX=750
     DefaultCarY=110
-    Carx=950
+    Carx=750
     Cary=110
     image.width=20
     image.height=40
@@ -23,9 +23,9 @@ class Set_car:
     # [shapes.Line(Carx-1/4*image.width , Cary+image.height/4,Carx+500*cos(108*pi/180) , Cary+500*sin(108*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx-90 , Cary-10, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=470,batch=car)],
     # [shapes.Line(Carx-2/4*image.width , Cary+image.height/4,Carx+500*cos(126*pi/180) , Cary+500*sin(126*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx-60 , Cary+60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=455,batch=car)],
     # [shapes.Line(Carx-3/4*image.width , Cary+image.height/4,Carx+500*cos(144*pi/180) , Cary+500*sin(144*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx-60 , Cary-60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=440,batch=car)],
-    [shapes.Line(Carx-image.width     , Cary+image.height/4,Carx+500*cos(162*pi/180) , Cary+500*sin(162*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+90 , Cary+10, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=425,batch=car)],
-    [shapes.Line(Carx-image.width     , Cary               ,Carx+500*cos(180*pi/180) , Cary+500*sin(180*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+90 , Cary-10, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=410,batch=car)],
-    [shapes.Line(Carx-image.width     , Cary-image.height/4,Carx+500*cos(198*pi/180) , Cary+500*sin(198*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+60 , Cary+60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=395,batch=car)],
+    [shapes.Line(Carx-image.width     , Cary+image.height/4,Carx+500*cos(162*pi/180) , Cary+500*sin(162*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+90 , Cary+10, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=485,batch=car)],
+    [shapes.Line(Carx-image.width     , Cary               ,Carx+500*cos(180*pi/180) , Cary+500*sin(180*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+90 , Cary-10, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=470,batch=car)],
+    [shapes.Line(Carx-image.width     , Cary-image.height/4,Carx+500*cos(198*pi/180) , Cary+500*sin(198*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+60 , Cary+60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=455,batch=car)],
     # [shapes.Line(Carx-3/4*image.width , Cary-image.height/4,Carx+500*cos(216*pi/180) , Cary+500*sin(216*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+60 , Cary-60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=380,batch=car)],
     # [shapes.Line(Carx-2/4*image.width , Cary-image.height/4,Carx+500*cos(234*pi/180) , Cary+500*sin(234*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+ 5 , Cary+60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=365,batch=car)],
     # [shapes.Line(Carx-1/4*image.width , Cary-image.height/4,Carx+500*cos(252*pi/180) , Cary+500*sin(252*pi/180),width=1, color=(255,255,255), batch=car),shapes.Circle(Carx+ 5 , Cary-60, 3, color=(255,255,255), batch=car),True,text.Label('',font_name='Times New Roman',font_size=15,x=930, y=350,batch=car)],
@@ -43,16 +43,16 @@ class Set_car:
         shapes.Line( Carx+image.width,Cary+image.height/4,Carx+image.width,Cary-image.height/4,width=1, color=(20, 200, 20), batch=car)
     ]
     for line in lines:
-        line[1].opacity=1000
-        line[0].opacity=1000
+        line[1].opacity=0
+        line[0].opacity=0
         line[3].color = (100, 255, 100, 255)
         line[3].text=str(format(((line[0].x2-(line[0].x))**2 + (line[0].y2-(line[0].y))**2)**0.5, ".2f"))
     for line in car_shape:
         line.opacity=0
-    lines_coord=[[line[0].x-950,line[0].y-110,line[0].x2-950,line[0].y2-110] for line in lines]
+    lines_coord=[[line[0].x-750,line[0].y-110,line[0].x2-750,line[0].y2-110] for line in lines]
 
 ###########
-    car_body=[[line.x-950,line.y-110,line.x2-950,line.y2-110] for line in car_shape]
+    car_body=[[line.x-750,line.y-110,line.x2-750,line.y2-110] for line in car_shape]
     def __init__(self):
         self.velocity=0
     def update(self,rotation,sprite):
@@ -84,8 +84,8 @@ class Set_car:
     
 class Set_car2:
     car1 = graphics.Batch()
-    image=resource.image('unnamed.png')
-    Carx=950
+    image=resource.image('Car.png')
+    Carx=750
     Cary=110
     image.width=20
     image.height=40

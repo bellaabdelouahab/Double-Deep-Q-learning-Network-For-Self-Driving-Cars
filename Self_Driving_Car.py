@@ -9,7 +9,10 @@ from math import cos,sin,pi
 from learning_rate import draw_graphe
 import numpy as np
 from ddqn_Agent import DDQNAgent
+import tkinter.filedialog as Fd
+import tkinter as tk
 import os
+import time
 ##################### set game env ##################
 
 TOTAL_GAMETIME = 10000 # Max game time for one episode
@@ -18,11 +21,9 @@ Episodes_counter = 0
 REPLACE_TARGET = 100 
 GameTime = 0 
 GameHistory = []
-ddqn_agent = DDQNAgent(alpha=0.001, gamma=0.998, n_actions=3, epsilon=0, batch_size=128, input_dims=3)
+ddqn_agent = DDQNAgent(alpha=0.001, gamma=0.998, n_actions=3, epsilon=0.1, batch_size=128, input_dims=3)
 # if you want to load the existing model uncomment this line.
 # careful an existing model might be overwritten
-ddqn_agent.load_model()
-ddqn_agent.update_network_parameters()
  
 ddqn_scores = []
 eps_history = []
@@ -36,21 +37,25 @@ counter = 0
 gtime = 0 
 first_game=True
 learnning_started=False
+userControl = False
 list_of_actions=[]
 #####################################################
 show_real_car=False
 
 windows = window.Window(1000,500)
+windows.set_minimum_size(1000, 500)
+root = tk.Tk()
+root.withdraw()
 options['debug_gl'] = False
 keyboard = window.key.KeyStateHandler() 
 windows.push_handlers(keyboard)
 rotation_angel=1
-track=track()
-track.setter()
-Track_lines=track.SetTrack
-Track_gols=track.SetGoals
+Track=track()
+Track.setter()
+Track_lines=Track.SetTrack
+Track_gols=Track.SetGoals
 for goal in Track_gols:
-    goal[0].opacity=1000
+    goal[0].opacity=0
 buttons=button
 Car=Set_car()
 Car1=Set_car2()
@@ -59,17 +64,16 @@ default_distance=Car.set_default_distance(Car.lines)
 
 #################################
 def on_mouse_press(x,y, button, modifier):
-    global learnning_started,Track_lines,Track_gols
+    global learnning_started,Track_lines,Track_gols,Track,userControl
     if track.drawing_track:
-        track.add_track(x,y)
+        Track.add_track(x,y)
     elif track.drawing_goal:
-        track.add_goal(x,y)
+        Track.add_goal(x,y)
     if 0<x<150 and 460<y<500 :
         learnning_started=not learnning_started
         if learnning_started:
             buttons.button_text.text='Stop learning'
         else :
-            draw_graphe([sum([ddqn_scores[j] for j in range(i)])/i for i in range(1,len(ddqn_scores))],True)
             buttons.button_text.text='Start learning'
     elif 0<x<150 and 420<y<460 :
         track.drawing_track=not track.drawing_track
@@ -96,7 +100,8 @@ def on_mouse_press(x,y, button, modifier):
         track.drawing_track=False
         track.new_added_track=False
         track.new_added_goal=False
-        with open('output.dat','wb') as ch:
+        timestr = time.strftime("%d-%m-%Y-%H-%M")
+        with open('Trucks/Truck-'+timestr+'.dat','wb') as ch:
             dump([[[track.SetTrack[i].x,track.SetTrack[i].y,track.SetTrack[i].x2,track.SetTrack[i].y2] for i in range(len(track.SetTrack))],\
                     [[track.SetGoals[i][0].x,track.SetGoals[i][0].y,track.SetGoals[i][0].x2,track.SetGoals[i][0].y2] for i in range(len(track.SetGoals))]
                     ],ch )
@@ -111,20 +116,43 @@ def on_mouse_press(x,y, button, modifier):
         track.SetGoals=[]
         Track_lines=[]
         Track_gols=[]
-    
+    elif 0<x<150 and 260<y<300:
+        ddqn_agent.save_model()
+    elif 0<x<150 and 220<y<260:
+        filepath = Fd.askopenfile(filetypes=[("h5 files only", ".h5")])
+        ddqn_agent.load_model(filepath.name)
+        ddqn_agent.update_network_parameters()
+    elif 0<x<150 and 180<y<220:
+        draw_graphe([sum([ddqn_scores[j] for j in range(i)])/i for i in range(1,len(ddqn_scores))],True)
+    elif 0<x<150 and 140<y<180:
+        draw_graphe(ddqn_scores,True)
+    elif 0<x<150 and 100<y<140:
+        userControl = not userControl
+        if userControl:
+            buttons.manual_label.text='Manual : on'
+            clock.schedule_interval(on_text_motion_in,1/60)
+        else:
+            buttons.manual_label.text='Manual : off'
+            clock.unschedule(on_text_motion_in)
+    elif 0<x<150 and 60<y<100:
+        Track=track()
+        Track.setter(True)
+        Track_lines=Track.SetTrack
+        Track_gols=Track.SetGoals
+        for goal in Track_gols:
+            goal[0].opacity=0
 #################################
 windows.on_mouse_press=on_mouse_press
 @windows.event       
 def on_close():
-    draw_graphe([sum([ddqn_scores[j] for j in range(i)])/i for i in range(1,len(ddqn_scores))],True)
     if Episodes_counter>50:
         ddqn_agent.save_model()
         print("save model")
     return
 @windows.event
 def on_mouse_motion(x, y, dx, dy):
-    track.change_track_coords(x,y)
-    track.change_goal_coords(x,y)
+    Track.change_track_coords(x,y)
+    Track.change_goal_coords(x,y)
 def car(carX,carY):
     global Car , carPositionHistory
     Car.sprite.rotation+=carX/(rotation_angel*7)
@@ -143,10 +171,10 @@ def hover(line,x4,y4,x3,y3,x2,y2,x1,y1):
     if uA >= 0 and uA <= 1 and uB >= 0 and uB <= 1:
         if line:
             line[2]=False
-            x  = x1 + (uA * (x2-x1))
-            y  = y1 + (uA * (y2-y1))
-            x2 = x1 + (uA * (x2-x1))
-            y2 = y1 + (uA * (y2-y1))
+            line[1].x = x1 + (uA * (x2-x1))
+            line[1].y = y1 + (uA * (y2-y1))
+            line[0].x2 = x1 + (uA * (x2-x1))
+            line[0].y2 = y1 + (uA * (y2-y1))
             line[3].text=str(format(((uA * (x2-x1))**2+(uA * (y2-y1)**2))**0.5, ".2f"))
             return ((uA * (x2-x1))**2+(uA * (y2-y1)**2))**0.5
         else:
@@ -181,17 +209,6 @@ def move(dt):
             rotation_angel-=1
 def resetgame():
     global default_distance,rotation_angel,carPositionHistory
-    
-    #last goal scored:
-    for i in Track_gols:
-        if i[1]:
-            index = Track_gols.index(i)
-    # # if len(carPositionHistory)>20:
-    # Car.Carx=(Track_gols[index-1][0].x2+Track_gols[index-1][0].x)/2
-    # Car.Cary=(Track_gols[index-1][0].y2+Track_gols[index-1][0].y)/2
-    # print(Car.Carx,Car.Cary)
-        # carPositionHistory = carPositionHistory[:-20]
-    # else:
     Car.Carx=Car.DefaultCarX
     Car.Cary=Car.DefaultCarY
     Car.update(-90,Car.sprite)
@@ -311,7 +328,7 @@ def step(dt,action,bytf=False):
     #     keyboard[window.key.MOTION_LEFT]=False
     #     buttons.move_right.color=(200,20,20)
     #     buttons.move_left.color=(156,34,199)
-    elif action==0:
+    elif action==3:
         keyboard[window.key.MOTION_RIGHT]=False
         keyboard[window.key.MOTION_LEFT]=False
         buttons.move_right.color=(156,34,199)
@@ -322,7 +339,7 @@ def run_agent(dt):
     if learnning_started and Episodes_counter<N_EPISODES and done and not show_real_car:
         if Episodes_counter==200:    
             os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
-        ddqn_agent.Plotit()
+        #     ddqn_agent.Plotit()
         if not first_game:
             eps_history.append(ddqn_agent.epsilon)
             ddqn_scores.append(score)
