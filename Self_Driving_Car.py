@@ -143,10 +143,10 @@ def hover(line,x4,y4,x3,y3,x2,y2,x1,y1):
     if uA >= 0 and uA <= 1 and uB >= 0 and uB <= 1:
         if line:
             line[2]=False
-            line[1].x = x1 + (uA * (x2-x1))
-            line[1].y = y1 + (uA * (y2-y1))
-            line[0].x2 = x1 + (uA * (x2-x1))
-            line[0].y2 = y1 + (uA * (y2-y1))
+            x  = x1 + (uA * (x2-x1))
+            y  = y1 + (uA * (y2-y1))
+            x2 = x1 + (uA * (x2-x1))
+            y2 = y1 + (uA * (y2-y1))
             line[3].text=str(format(((uA * (x2-x1))**2+(uA * (y2-y1)**2))**0.5, ".2f"))
             return ((uA * (x2-x1))**2+(uA * (y2-y1)**2))**0.5
         else:
@@ -322,7 +322,7 @@ def run_agent(dt):
     if learnning_started and Episodes_counter<N_EPISODES and done and not show_real_car:
         if Episodes_counter==200:    
             os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
-        #     ddqn_agent.Plotit()
+        ddqn_agent.Plotit()
         if not first_game:
             eps_history.append(ddqn_agent.epsilon)
             ddqn_scores.append(score)
