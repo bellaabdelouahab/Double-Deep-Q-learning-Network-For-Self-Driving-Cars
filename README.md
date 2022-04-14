@@ -28,7 +28,7 @@ The model is an artificial neural network that consists of five layers. <br>
   The Q-eval is the model responsible for the training and taking action. <br>
   On the other hand, we do not train the Q-target; instead, we only update its weights every specified number of episodes. <br>
   The role of the Q-target is to update the Q-table so that the agent does not get stuck in one area and get used to low scores. <br>
-  Further explanation can be found in the main article. <br>
+  Further explanation can be found in the original paper. <br>
 
 <p align="center"><img src="https://miro.medium.com/max/1400/1*o8PMTWmT1XK1jdSK59QrYQ.png" width="100%" alt=""/></p>
 
