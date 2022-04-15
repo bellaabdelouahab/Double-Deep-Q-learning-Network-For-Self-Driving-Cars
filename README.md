@@ -48,3 +48,10 @@ We can do so by periodically hard-copying over the parameters
 ## Requirements
 The code is developed using python 3.9.0 on Windows 10. NVIDIA GPU (GT 340M or above) ared needed to train and test. 
 See [`requirements.txt`](requirements.txt ) for other dependencies.
+
+
+
+### License
+This code is freely available for free non-commercial use, and may be redistributed under these conditions. 
+Please, see the [LICENSE](LICENSE) for further details. 
+Third-party datasets and softwares are subject to their respective licenses. 
