@@ -18,7 +18,7 @@ The model is an artificial neural network that consists of five layers. <br>
     
  Model Structure
  
- 
+ <p align="center"><img src="https://github.com/bellaabdelouahab/Double-Deep-Q-learning-Network-For-Self-Driving-Cars/blob/main/Media/IMG_20220415_101040.jpg" width="100%" alt=""/></p>
  
  - Agent
   The Q-learning agent uses a Q-table, which is a multi-dimotional table. <br>
@@ -37,4 +37,4 @@ but we have Q' slowly copy the parameters of Q .
 We can do so by periodically hard-copying over the parameters
 
 
-<p align="center"><img src="https://github.com/bellaabdelouahab/Double-Deep-Q-learning-Network-For-Self-Driving-Cars/blob/main/Media/IMG_20220415_101040.jpg" width="100%" alt=""/></p>
+
