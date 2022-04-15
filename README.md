@@ -40,8 +40,6 @@ We can do so by periodically hard-copying over the parameters
 <br><br>
 
 ## Overview
-- `Model/`: includes training and validation scripts.
-- `Track/`: contains data preparation, model definition, and some utility functions.
-- `refiner/`: includes the implementation of _refinement unit_ explained in the paper Section 3.3.
-- `experiments/`: contains `*.yaml` configuration files to run experiments.
-- `sample_images/`: images from Human3.6M dataset to run demo notebook.
+- `Model/`: includes different trained models saved in an H5 format.
+- `Track/`: contains the structure of the track to easley train model on various tracks.
+- `Learning rate graphs/`: includes the graphical representation of the training (score & average score).
