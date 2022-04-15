@@ -35,3 +35,6 @@ The model is an artificial neural network that consists of five layers. <br>
 We minimize the mean squared error between Q and Q* , 
 but we have Q' slowly copy the parameters of Q .
 We can do so by periodically hard-copying over the parameters
+
+
+<p align="center"><img src="https://github.com/bellaabdelouahab/Double-Deep-Q-learning-Network-For-Self-Driving-Cars/blob/main/Media/IMG_20220415_101040.jpg" width="100%" alt=""/></p>
