@@ -43,3 +43,8 @@ We can do so by periodically hard-copying over the parameters
 - `Model/`: includes different trained models saved in an H5 format.
 - `Track/`: contains the structure of the track to easley train model on various tracks.
 - `Learning rate graphs/`: includes the graphical representation of the training (score & average score).
+
+
+## Requirements
+The code is developed using python 3.9.0 on Windows 10. NVIDIA GPU (GT 340M or above) ared needed to train and test. 
+See [`requirements.txt`](requirements.txt ) for other dependencies.
