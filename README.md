@@ -37,4 +37,11 @@ but we have Q' slowly copy the parameters of Q .
 We can do so by periodically hard-copying over the parameters
 
 
+<br><br>
 
+## Overview
+- `Model/`: includes training and validation scripts.
+- `Track/`: contains data preparation, model definition, and some utility functions.
+- `refiner/`: includes the implementation of _refinement unit_ explained in the paper Section 3.3.
+- `experiments/`: contains `*.yaml` configuration files to run experiments.
+- `sample_images/`: images from Human3.6M dataset to run demo notebook.
