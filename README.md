@@ -18,7 +18,7 @@ The model is an artificial neural network that consists of five layers. <br>
     
  Model Structure
  
- 
+ <p align="center"><img src="https://github.com/bellaabdelouahab/Double-Deep-Q-learning-Network-For-Self-Driving-Cars/blob/main/Media/IMG_20220415_101040.jpg" width="100%" alt=""/></p>
  
  - Agent
   The Q-learning agent uses a Q-table, which is a multi-dimotional table. <br>
@@ -35,3 +35,23 @@ The model is an artificial neural network that consists of five layers. <br>
 We minimize the mean squared error between Q and Q* , 
 but we have Q' slowly copy the parameters of Q .
 We can do so by periodically hard-copying over the parameters
+
+
+<br><br>
+
+## Overview
+- `Model/`: includes different trained models saved in an H5 format.
+- `Track/`: contains the structure of the track to easley train model on various tracks.
+- `Learning rate graphs/`: includes the graphical representation of the training (score & average score).
+
+
+## Requirements
+The code is developed using python 3.9.0 on Windows 10. NVIDIA GPU (GT 340M or above) ared needed to train and test. 
+See [`requirements.txt`](requirements.txt ) for other dependencies.
+
+
+
+### License
+This code is freely available for free non-commercial use, and may be redistributed under these conditions. 
+Please, see the [LICENSE](LICENSE) for further details. 
+Third-party datasets and softwares are subject to their respective licenses. 
