@@ -1,0 +1,6 @@
+keras==2.12.0
+matplotlib==3.7.1
+numpy==1.24.2
+pipreqs==0.4.11
+pyglet==2.0.5
+tensorflow==2.12.0

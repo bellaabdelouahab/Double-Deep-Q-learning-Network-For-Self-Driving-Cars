@@ -2,11 +2,11 @@ from ast import For
 from cgitb import reset
 from pyglet import window,clock,app,options
 from Track import track
-from Car import Set_car,Set_car2
+from components.Car import Set_car,Set_car2
 from pickle import dump
-from buttons import button
+from components.buttons import button
 from math import cos,sin,pi
-from learning_rate import draw_graphe
+from components.learning_rate import draw_graphe
 import numpy as np
 from ddqn_Agent import DDQNAgent
 import tkinter.filedialog as Fd

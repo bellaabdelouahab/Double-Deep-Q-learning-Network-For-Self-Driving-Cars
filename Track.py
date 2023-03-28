@@ -31,8 +31,6 @@ class track():
                         break
         except FileNotFoundError:
             print('file not found')
-            SetTrack=[]
-            SetGoals=[]
     def add_track(self,x,y):
         if self.drawing_track:
             if not self.new_added_track:
