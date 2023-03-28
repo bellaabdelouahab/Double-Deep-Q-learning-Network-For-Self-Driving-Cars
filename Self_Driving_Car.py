@@ -374,13 +374,13 @@ def run_an_episode(dt):
         observation_, reward, done = step(dt,action,True)
         list_of_actions.append(action)
         # This is a countdown if no reward is collected the car will be done within 100 ticks
-        # if reward == 0:
-        #     counter += 1
-        #     if counter > 100:
-        #         done = True
-        #         print("No Rewards")
-        # else:
-        #     counter = 0
+        if reward == 0:
+            counter += 1
+            if counter > 100:
+                done = True
+                print("No Rewards")
+        else:
+            counter = 0
         print(end="")
         score += reward
         
