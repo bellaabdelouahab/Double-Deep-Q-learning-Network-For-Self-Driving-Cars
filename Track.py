@@ -15,7 +15,7 @@ class track():
                 filepath = Fd.askopenfile(filetypes=[("binary files only", ".dat")])
                 filename = filepath.name
             else:
-                filename='C:/Git-Hub/Double-Deep-Q-learning-Network-For-Self-Driving-Cars/output.dat'
+                filename='Tracks/output.dat'
             with open(filename,'rb') as ch:
                 while True:
                     try:

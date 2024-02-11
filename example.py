@@ -13,6 +13,7 @@ button_label = pyglet.text.Label('Press SPACE to say Hello',
 
 batch = pyglet.graphics.Batch()
 square = shapes.Rectangle(window.width//2 - 50, window.height//2 - 50, 100, 100, batch=batch)
+start_button = shapes.BorderedRectangle(0, 460, 150, 40, color=(20, 200, 20),border_color=(200,20,20),batch=batch)
 
 @window.event
 def on_draw():
@@ -20,10 +21,10 @@ def on_draw():
     batch.draw()
     button_label.draw()
 
-@window.event
-def on_key_press(symbol, modifiers):
-    print(symbol)
-    if symbol == pyglet.window.key.SPACE:
-        on_button_press()
+# @window.event
+# def on_key_press(symbol, modifiers):
+#     print(symbol)
+#     if symbol == pyglet.window.key.SPACE:
+#         on_button_press()
 
 pyglet.app.run()

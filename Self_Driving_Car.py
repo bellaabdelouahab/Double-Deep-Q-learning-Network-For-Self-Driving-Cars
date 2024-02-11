@@ -54,8 +54,10 @@ Track_lines=Track.SetTrack
 Track_gols=Track.SetGoals
 for goal in Track_gols:
     goal[0].opacity=0
-buttons=button
+buttons=button()
+buttons.go()
 Car=Set_car()
+Car.gocar()
 Car1=Set_car2()
 Car1.sprite.opacity=1000
 default_distance=Car.set_default_distance(Car.lines)
@@ -189,7 +191,7 @@ def on_draw():
     Car.car.draw()
     # Car1.car1.draw()
     track.batch.draw()
-    # buttons.button.draw()
+    buttons.buttono.draw()
 windows.on_draw=on_draw
 def move(dt):
     global Car,rotation_angel
@@ -234,6 +236,8 @@ def resetgame():
             Track_gols[_][0].color=(20,200,20)
         else:
             Track_gols[_][0].color=(200,20,20)
+    # chancge color of buttonslist
+    # buttons.buttonslist[0].color=(20, 200, 20)
 def on_text_motion_in(dt,bytf=True):
     global Car,rotation_angel
     reward=0
