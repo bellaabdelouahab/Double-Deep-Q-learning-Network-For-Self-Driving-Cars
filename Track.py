@@ -15,7 +15,7 @@ class track():
                 filepath = Fd.askopenfile(filetypes=[("binary files only", ".dat")])
                 filename = filepath.name
             else:
-                filename='/Double-Deep-Q-learning-Network-For-Self-Driving-Cars-main/Double-Deep-Q-learning-Network-For-Self-Driving-Cars-main/Trucks/output.dat'
+                filename='C:/Git-Hub/Double-Deep-Q-learning-Network-For-Self-Driving-Cars/output.dat'
             with open(filename,'rb') as ch:
                 while True:
                     try:
@@ -27,6 +27,7 @@ class track():
                         if len(self.SetGoals)>0:
                             self.SetGoals[0][1]=True
                         self.batch.invalidate()
+                        print('done')
                     except EOFError:
                         break
         except FileNotFoundError:

@@ -60,7 +60,7 @@ def Model(lr, n_actions, input_dims, fc_dims):
                 Dense(fc_dims,activation='relu'),
                 Dense(n_actions)])
 
-    model.compile(optimizer=Adam(learning_rate=lr,decay=0.001), loss='mse')
+    model.compile(optimizer=Adam(learning_rate=lr), loss='mse')
 
     return model
 

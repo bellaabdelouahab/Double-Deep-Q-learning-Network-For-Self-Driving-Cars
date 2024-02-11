@@ -1,5 +1,3 @@
-from ast import For
-from cgitb import reset
 from pyglet import window,clock,app,options
 from Track import track
 from components.Car import Set_car,Set_car2
@@ -182,12 +180,16 @@ def hover(line,x4,y4,x3,y3,x2,y2,x1,y1):
             return x1 + (uA * (x2-x1)),y1 + (uA * (y2-y1))
     else:
         return False   
+
+# import pyglet
+# from pyglet import shapes
+# @windows.event
 def on_draw():
     windows.clear()
     Car.car.draw()
     # Car1.car1.draw()
     track.batch.draw()
-    button.button.draw()
+    # buttons.button.draw()
 windows.on_draw=on_draw
 def move(dt):
     global Car,rotation_angel
@@ -223,8 +225,10 @@ def resetgame():
         Track_gols[_][1]=False
     if len(Track_gols)>0: 
         Track_gols[0][1]=True
-    for _ in keyboard:
-        keyboard[_]=False
+    print("reset keybord")
+    for _ in keyboard.data.keys():
+        # empty function as a modifier for the keyboard
+        keyboard.unpress(_)
     for _ in range(len(Track_gols)):
         if Track_gols[_][1]:
             Track_gols[_][0].color=(20,200,20)
@@ -298,7 +302,7 @@ def on_text_motion_in(dt,bytf=True):
         return done
 
 def step(dt,action,bytf=False):
-    keyboard[window.key.MOTION_UP]=True
+    keyboard.on_key_press(window.key.MOTION_UP,0)
     buttons.move_up.color=(200,20,20)
     if not 0<=action<6 or action==6:
         print(action)
@@ -314,13 +318,13 @@ def step(dt,action,bytf=False):
     #     buttons.move_down.color=(156,134,199)
     #     buttons.move_up.color=(156,34,199)
     elif action==1:
-        keyboard[window.key.MOTION_LEFT]=True
-        keyboard[window.key.MOTION_RIGHT]=False
+        keyboard.on_key_press(window.key.MOTION_LEFT,0)
+        keyboard.on_key_release(window.key.MOTION_RIGHT,0)
         buttons.move_left.color=(200,20,20)
         buttons.move_right.color=(156,34,199)
     elif action==2:
-        keyboard[window.key.MOTION_RIGHT]=True
-        keyboard[window.key.MOTION_LEFT]=False
+        keyboard.on_key_press(window.key.MOTION_RIGHT,0)
+        keyboard.on_key_release(window.key.MOTION_LEFT,0)
         buttons.move_right.color=(200,20,20)
         buttons.move_left.color=(156,34,199)
     # elif action==4:
@@ -329,8 +333,8 @@ def step(dt,action,bytf=False):
     #     buttons.move_right.color=(200,20,20)
     #     buttons.move_left.color=(156,34,199)
     elif action==3:
-        keyboard[window.key.MOTION_RIGHT]=False
-        keyboard[window.key.MOTION_LEFT]=False
+        keyboard.on_key_release(window.key.MOTION_RIGHT,0)
+        keyboard.on_key_release(window.key.MOTION_LEFT,0)
         buttons.move_right.color=(156,34,199)
         buttons.move_left.color=(156,34,199)
     return on_text_motion_in(dt,bytf)
@@ -428,7 +432,9 @@ clock.schedule_interval(run_a_round, 1/60)
 
 
 def run_game():
+    print("Game is starting")
     resetgame()
+    print("Game is running")
     app.run()
 
 if __name__ == '__main__':

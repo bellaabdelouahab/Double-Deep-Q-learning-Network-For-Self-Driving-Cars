@@ -81,6 +81,7 @@ class Set_car:
         # x[8][3].text=str(format(((x[8][0].x2-(x[8][0].x))**2 + (x[8][0].y2-(x[8][0].y))**2)**0.5, ".2f"))
         # x[9][3].text=str(format(((x[9][0].x2-(x[9][0].x))**2 + (x[9][0].y2-(x[9][0].y))**2)**0.5, ".2f"))
         return [eval(x[i][3].text) for i in range(len(x))]
+    # car.invalidate()
     
 class Set_car2:
     car1 = graphics.Batch()
