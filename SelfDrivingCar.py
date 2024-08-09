@@ -10,7 +10,7 @@ from pyglet import window, clock, app, options
 from components.Car import Set_car, Set_car2
 from components.buttons import button
 from components.learning_rate import draw_graphe
-from ddqn_Agent import DDQNAgent
+from ddqn_Agent import WS_DDQN as DDQNAgent
 from Track import track
 
 # Constants
@@ -38,7 +38,7 @@ list_of_actions = []
 show_real_car = False
 
 # Initialize the DDQN agent
-ddqn_agent = DDQNAgent(alpha=0.001, gamma=0.998, n_actions=3, epsilon=0.1, batch_size=128, input_dims=3)
+ddqn_agent = DDQNAgent()
 
 # Create the game window
 windows = window.Window(1000, 500)
@@ -394,7 +394,7 @@ def run_agent(dt):
         if Episodes_counter == 200:
             os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
         if not first_game:
-            eps_history.append(ddqn_agent.epsilon)
+            eps_history.append(ddqn_agent.get_epsilon())
             ddqn_scores.append(score)
             avg_score = np.mean(ddqn_scores[max(0, Episodes_counter - 100):(Episodes_counter + 1)])
             if Episodes_counter % REPLACE_TARGET == 0 and Episodes_counter >= REPLACE_TARGET:
@@ -403,7 +403,7 @@ def run_agent(dt):
             if Episodes_counter % 100 == 0 and Episodes_counter >= 100:
                 ddqn_agent.save_model()
                 print("Model saved")
-            print('Episode: ', Episodes_counter, 'Score: %.2f' % score, 'Average score %.2f' % avg_score, 'Epsilon: %.4f ' % ddqn_agent.epsilon, 'Memory size', ddqn_agent.memory.mem_cntr % ddqn_agent.memory.mem_size)
+            print('Episode: ', Episodes_counter, 'Score: %.2f' % score, 'Average score %.2f' % avg_score, 'Epsilon: %.4f ' % ddqn_agent.get_epsilon(), 'Memory size', ddqn_agent.get_memory_counter())
             render_actions = list_of_actions
             show_real_car = True
         list_of_actions = []
@@ -473,19 +473,21 @@ def run_a_round(dt):
             print('\n-------------------------------Render END---------------------------------------')
             show_real_car = False
 
-# Schedule game loops
-clock.schedule_interval(run_agent, 1 / 60)
-clock.schedule_interval(run_an_episode, 1 / 60)
-clock.schedule_interval(run_a_round, 1 / 60)
-
-# Uncomment the following line if you want to control the car manually. Note: do not train your model while controlling the car manually.
-# clock.schedule_interval(on_text_motion_in, 1 / 60)
-
 def run_game():
     """Start and run the game."""
     print("Game is starting")
+    ddqn_agent.start_ws()  # Start the WebSocket server
     reset_game()
     print("Game is running")
+
+    # Schedule game loops
+    clock.schedule_interval(run_agent, 1 / 60)
+    clock.schedule_interval(run_an_episode, 1 / 60)
+    clock.schedule_interval(run_a_round, 1 / 60)
+
+    # Uncomment the following line if you want to control the car manually
+    # clock.schedule_interval(on_text_motion_in, 1 / 60)
+
     app.run()
 
 if __name__ == '__main__':

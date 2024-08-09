@@ -144,3 +144,117 @@ class DDQNAgent(object):
     
     def Plotit(self):
         plot_model(self.q_eval, to_file="dot_img_file.png", show_shapes=True)
+        
+  
+import asyncio
+import websockets
+import json
+import numpy as np
+from threading import Thread
+from asyncio import Lock
+
+class WS_DDQN:
+    def __init__(self, host='localhost', port=8765):
+        self.host = host
+        self.port = port
+        self.server = None
+        self.ws_connection = None
+        self.loop = asyncio.new_event_loop()
+        self.thread = Thread(target=self._run_event_loop, daemon=True)
+        self.thread.start()
+        self.lock = Lock()
+        self.currentMsg = None
+
+    def _run_event_loop(self):
+        asyncio.set_event_loop(self.loop)
+        self.loop.run_forever()
+
+    def start_ws(self):
+        future = asyncio.run_coroutine_threadsafe(self._start_ws(), self.loop)
+        future.result()  # Wait for the server to start
+
+    async def _start_ws(self):
+        self.server = await websockets.serve(self._handle_connection, self.host, self.port)
+        print(f"WebSocket server started on ws://{self.host}:{self.port}")
+
+    def stop_ws(self):
+        future = asyncio.run_coroutine_threadsafe(self._stop_ws(), self.loop)
+        future.result()  # Wait for the server to stop
+
+    async def _stop_ws(self):
+        if self.server:
+            self.server.close()
+            await self.server.wait_closed()
+            print("WebSocket server stopped")
+
+    async def _handle_connection(self, websocket, path):
+        self.ws_connection = websocket
+        print("Colab client connected")
+        try:
+            async for message in websocket:
+                print(f"Received from Colab: {message}")
+                self.currentMsg = message
+        except websockets.exceptions.ConnectionClosed:
+            print("Colab client disconnected")
+        finally:
+            self.ws_connection = None
+
+    async def _send_command(self, command, **kwargs):
+        async with self.lock:
+            if self.ws_connection:
+                currentMsg = self.currentMsg
+                message = {"command": command, **kwargs}
+                await self.ws_connection.send(json.dumps(message))
+                print(f"Sent to Colab: {message}")
+                while self.currentMsg == currentMsg:
+                    await asyncio.sleep(0.1)
+                result = json.loads(self.currentMsg)
+                self.currentMsg = None
+                return result
+            else:
+                print("No connection to Colab")
+                return None
+
+    def _run_command(self, command, **kwargs):
+        future = asyncio.run_coroutine_threadsafe(self._send_command(command, **kwargs), self.loop)
+        result = future.result()
+        while result is None:
+            result = future.result()
+        return result
+
+
+    # DDQN-related commands (now synchronous)
+    def choose_action(self, observation):
+        result = self._run_command("choose_action", observation=observation)
+        return result['action'] if result else None
+
+    def remember(self, state, action, reward, new_state, done):
+        self._run_command("remember", 
+                          state=state, 
+                          action=action, 
+                          reward=reward, 
+                          new_state=new_state, 
+                          done=done)
+
+    def learn(self):
+        self._run_command("learn")
+
+    def save_model(self):
+        self._run_command("save_model")
+
+    def load_model(self, filepath):
+        self._run_command("load_model", filepath=filepath)
+
+    def update_network_parameters(self):
+        self._run_command("update_network_parameters")
+
+    def get_epsilon(self):
+        result = self._run_command("get_epsilon")
+        return result['epsilon'] if result else None
+
+    def get_memory_counter(self):
+        result = self._run_command("get_memory_counter")
+        return result['memory_counter'] if result else None
+    
+    
+   
